@@ -29,6 +29,7 @@ def handle_connection(c):
             c.send("Login successful!".encode())
         else:
             c.send("Login Failed!".encode())
+            raise SystemExit
 
     elif choice == "Y" or choice == "y":
         conn = sqlite3.connect("userdata.db")
@@ -39,22 +40,31 @@ def handle_connection(c):
         c.send("Password: ".encode())
         password1 = c.recv(1024)
         password1 = hashlib.sha256(password1).hexdigest()
+        cur.execute(
+            "SELECT * FROM userdata WHERE username = :username", dict(username=username1))
+        if cur.fetchall():
+            c.send("Username already taken".encode())
+            raise SystemExit
 
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS userdata(
-            id INTEGER PRIMARY KEY,
-            username VARCHAR(255) NOT NULL,
-            password VARCHAR(25) NOT NULL
-        )
-        """)
+        else:
 
-        cur.execute("INSERT INTO userdata (username, password) VALUES (?, ?)", (username1, password1))
-        conn.commit()
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS userdata(
+                    id INTEGER PRIMARY KEY,
+                    username VARCHAR(255) NOT NULL,
+                    password VARCHAR(25) NOT NULL
+                )
+            """)
 
-        c.send("Account Created!".encode())
+            cur.execute("INSERT INTO userdata (username, password) VALUES (?, ?)", (username1, password1))
+            conn.commit()
+
+            c.send("Account Created!".encode())
+            raise SystemExit
 
     else:
         c.send("INVALID OPTION!".encode())
+        raise SystemExit
 
 while True:
     client, addr = server.accept()
