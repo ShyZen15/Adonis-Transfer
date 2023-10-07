@@ -10,7 +10,6 @@ server.listen()
 
 
 def handle_connection(c):
-
     c.send("Type Y for creating a account, Type L for login: ".encode())
     choice = c.recv(1024).decode()
     if choice == "L" or choice == "l":
@@ -65,6 +64,7 @@ def handle_connection(c):
     else:
         c.send("INVALID OPTION!".encode())
         raise SystemExit
+
 
 while True:
     client, addr = server.accept()
