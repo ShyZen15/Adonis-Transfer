@@ -8,23 +8,54 @@ server.bind(("localhost", 9999))
 
 server.listen()
 
+
 def handle_connection(c):
-    c.send("Username: ".encode())
-    username = c.recv(1024).decode()
-    c.send("Password: ".encode())
-    password = c.recv(1024)
-    password = hashlib.sha256(password).hexdigest()
 
-    conn = sqlite3.connect("userdata.db")
-    cur = conn.cursor()
+    c.send("Type Y for creating a account, Type L for login: ".encode())
+    choice = c.recv(1024).decode()
+    if choice == "L" or choice == "l":
+        c.send("Username: ".encode())
+        username = c.recv(1024).decode()
+        c.send("Password: ".encode())
+        password = c.recv(1024)
+        password = hashlib.sha256(password).hexdigest()
 
-    cur.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
+        conn = sqlite3.connect("userdata.db")
+        cur = conn.cursor()
 
-    if cur.fetchall():
-        c.send("Login successful!".encode())
+        cur.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
+
+        if cur.fetchall():
+            c.send("Login successful!".encode())
+        else:
+            c.send("Login Failed!".encode())
+
+    elif choice == "Y" or choice == "y":
+        conn = sqlite3.connect("userdata.db")
+        cur = conn.cursor()
+
+        c.send("Username: ".encode())
+        username1 = c.recv(1024).decode()
+        c.send("Password: ".encode())
+        password1 = c.recv(1024)
+        password1 = hashlib.sha256(password1).hexdigest()
+
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS userdata(
+            id INTEGER PRIMARY KEY,
+            username VARCHAR(255) NOT NULL,
+            password VARCHAR(25) NOT NULL
+        )
+        """)
+
+        cur.execute("INSERT INTO userdata (username, password) VALUES (?, ?)", (username1, password1))
+        conn.commit()
+
+        c.send("Account Created!".encode())
+
     else:
-        c.send("Login Failed!".encode())
-    
+        c.send("INVALID OPTION!".encode())
+
 while True:
     client, addr = server.accept()
-    threading.Thread(target = handle_connection, args=(client,)).start()
+    threading.Thread(target=handle_connection, args=(client,)).start()

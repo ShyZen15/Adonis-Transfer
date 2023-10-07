@@ -1,8 +1,13 @@
 import socket 
 
+hostname = socket.gethostname()
+
+print(hostname)
+
 if __name__ == '__main__': 
 	# Defining Socket 
-	host = '127.0.0.1'
+	host = socket.gethostbyname(hostname)
+	print(host)
 	port = 8080
 	totalclient = int(input('Enter number of clients: ')) 
 
