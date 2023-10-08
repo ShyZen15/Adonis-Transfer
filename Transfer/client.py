@@ -1,25 +1,34 @@
+import os
 import socket
+from Cryptodome.Cipher import AES
+from Cryptodome.Random import get_random_bytes
 
-if __name__ == '__main__':
-    host = '127.0.0.1'
-    port = 8080
+key = get_random_bytes(16)
+nonce = get_random_bytes(16)
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+cipher = AES.new(key, AES.MODE_EAX, nonce)
 
-    sock.connect((host, port))
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(("localhost", 9999))
 
-    while True:
-        filename = input("Enter the name of the file you want to transfer: ")
-        try:
-            fi = open(filename, "r")
-            data = fi.read()
-            if not data:
-                break
-            while data:
-                sock.send(str(data).encode())
-                data = fi.read()
-            
-            fi.close()
+file = input("Enter the filename with extension: ")
 
-        except IOError:
-            print("You have enter invalid filename. Please enter a valid name")
+file_tup = os.path.splitext(file)
+
+file_ext = file_tup[1]
+
+file_size = os.path.getsize(file)
+
+with open(file, "rb") as f:
+    data = f.read()
+
+encrypted = cipher.encrypt(data)
+
+
+client.send(file.encode())
+client.send(str(file_ext).encode())
+client.send(str(file_size).encode())
+client.sendall(encrypted)
+client.send(b"<END>")
+
+client.close()
