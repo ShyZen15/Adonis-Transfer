@@ -1,34 +1,24 @@
-import os
 import socket
-from Cryptodome.Cipher import AES
-from Cryptodome.Random import get_random_bytes
 
-key = get_random_bytes(16)
-nonce = get_random_bytes(16)
+# Define the server's hostname or IP address and the port number
+server_host = '192.168.1.100' # Replace with your server's IP address
+server_port = 12345
 
-cipher = AES.new(key, AES.MODE_EAX, nonce)
+# Create a socket object
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(("localhost", 9999))
+# Connect to the server
+client_socket.connect((server_host, server_port))
 
-file = input("Enter the filename with extension: ")
+# Send a message to the server
+message = 'Hello, Server!'
+client_socket.sendall(message.encode())
 
-file_tup = os.path.splitext(file)
+# Receive the server's response
+data = client_socket.recv(1024)
 
-file_ext = file_tup[1]
+# Print the server's response
+print('Received from server:', data.decode())
 
-file_size = os.path.getsize(file)
-
-with open(file, "rb") as f:
-    data = f.read()
-
-encrypted = cipher.encrypt(data)
-
-
-client.send(file.encode())
-client.send(str(file_ext).encode())
-client.send(str(file_size).encode())
-client.sendall(encrypted)
-client.send(b"<END>")
-
-client.close()
+# Close the socket
+client_socket.close()
