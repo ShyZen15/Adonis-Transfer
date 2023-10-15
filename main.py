@@ -13,7 +13,14 @@ root.configure(bg="#1E1E1E")
 
 class functions():
     def Login(self, event=None):
-        canvas.destroy()
+        canvas.pack_forget()
+        canv = Canvas(root, bg="#1E1E1E", width=500, height=800)
+        Text = canv.create_image(150, 100, image=LoginText, anchor=NW)
+
+        canv.pack()
+
+
+
 
     def Register(self, event=None):
         print("Nigga")
@@ -27,21 +34,24 @@ canvas = Canvas(root, bg="#1E1E1E", width=500, height=800)
 
 # importing images
 ICON = tk.PhotoImage(file="assets/Nigga.png")
-title = ImageTk.PhotoImage(file="assets/Group 5.png")
+titleIMG = ImageTk.PhotoImage(file="assets/Group 5.png")
 loginImg = ImageTk.PhotoImage(file="assets/Login.png")
 RegisterImg = ImageTk.PhotoImage(file="assets/Register.png")
 Field = ImageTk.PhotoImage(file="assets/Rectangle 6.png")
 LoginText = ImageTk.PhotoImage(file="assets/LoginText.png")
 
+
 # App icon
 root.iconphoto(False, ICON)
 
 # Buttons Fr
-canvas.create_image(-6, 20, image=title, anchor=NW)
+title = canvas.create_image(-6, 20, image=titleIMG, anchor=NW)
 loginBtn = canvas.create_image(150, 400, image=loginImg, anchor=NW)
 registerBtn = canvas.create_image(150, 600, image=RegisterImg, anchor=NW)
 canvas.tag_bind(loginBtn, "<Button-1>", obj.Login)
 canvas.tag_bind(registerBtn, "<Button-1>", obj.Register)
+
+
 canvas.pack()
 
 root.mainloop()
