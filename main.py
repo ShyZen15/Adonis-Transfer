@@ -15,6 +15,7 @@ class functions():
 
     def getCred(self, event=None):
         print("NIGGA")
+        print("Hello")
 
     def Login(self, event=None):
         obj = functions()
@@ -39,7 +40,7 @@ class functions():
         )
 
         passwordWin = canv.create_window(110, 350, window=passwordIn, anchor=NW)
-
+        
         loginBtn = canv.create_image(150, 450, image=loginImg, anchor=NW)
         canv.tag_bind(loginBtn, "<Button-1>", obj.getCred)
 
