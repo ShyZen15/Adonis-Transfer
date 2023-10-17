@@ -41,7 +41,7 @@ def handle_connection(c):
         cur.execute(
             "SELECT * FROM userdata WHERE username = :username", dict(username=username1))
         if cur.fetchall():
-            c.send("Username already taken".encode())
+            c.send("Taken".encode())
             raise SystemExit
 
         else:
