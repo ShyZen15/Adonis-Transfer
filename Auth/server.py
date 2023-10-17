@@ -13,7 +13,6 @@ def handle_connection(c):
     c.send("Type Y for creating a account, Type L for login: ".encode())
     choice = c.recv(1024).decode()
     if choice == "L" or choice == "l":
-        c.send("Username: ".encode())
         username = c.recv(1024).decode()
         c.send("Password: ".encode())
         password = c.recv(1024)
@@ -25,9 +24,9 @@ def handle_connection(c):
         cur.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
 
         if cur.fetchall():
-            c.send("Login successful!".encode())
+            c.send("True".encode())
         else:
-            c.send("Login Failed!".encode())
+            c.send("False".encode())
             raise SystemExit
 
     elif choice == "Y" or choice == "y":

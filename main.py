@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 from PIL import ImageTk
+import socket
 
 root = tk.Tk()
 root.title("Adonis Transfer")
@@ -11,13 +12,43 @@ root.resizable(False, False)
 root.configure(bg="#1E1E1E")
 
 
+
+global client
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+client.connect(("localhost", 9999))
+
 class functions():
-
     def getCred(self, event=None):
-        print("NIGGA")
-        print("Hello")
+      print("NIGGA")
+      print("Hello")
 
+      client.send("L".encode())
+      
+      userName = emailIn.get()
+      password = passwordIn.get()
+      client.send(userName.encode())
+      client.send(password.encode())
+
+      message = client.recv(1024).decode()
+      
+      n = Toplevel(root)
+      
+      if message == "True":
+        messagebox.showinfo("Success", "Login Successful")
+        n.destroy()
+      else:
+        messagebox.showinfo("Failed", "Invalid Credentials")
+        n.destroy()
+      
+      print(userName)
+      print(password)
+        
     def Login(self, event=None):
+        global passwordIn
+        global emailWin
+        global emailIn
         obj = functions()
         canvas.pack_forget()
         canv = Canvas(root, bg="#1E1E1E", width=500, height=800)
