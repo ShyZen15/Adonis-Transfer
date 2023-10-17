@@ -15,7 +15,7 @@ global client
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-client.connect(("localhost", 9999))
+client.connect(("localhost", 1234))
 
 
 class functions():
@@ -44,6 +44,7 @@ class functions():
             n.destroy()
 
     def getCred(self, event=None):
+        obj = functions()
         print("NIGGA")
         print("Hello")
 
