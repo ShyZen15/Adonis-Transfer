@@ -3,4 +3,5 @@ modules.xml
 profiles_settings.xml
 server-client.iml
 vcs.xml
+.DS_Store
 /.idea
