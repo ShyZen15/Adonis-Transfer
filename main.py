@@ -15,7 +15,7 @@ global client
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-client.connect(("localhost", 1234))
+client.connect(("localhost", 1230))
 
 
 class functions():
@@ -44,14 +44,15 @@ class functions():
             n.destroy()
 
     def getCred(self, event=None):
+        client.send("L".encode())
         obj = functions()
         print("NIGGA")
         print("Hello")
 
         userName = emailIn.get()
-        password = passwordIn.get()
-        client.send(userName.encode())
-        client.send(password.encode())
+        password = str(passwordIn.get())
+        client.send(userName.encode('utf-8'))
+        client.send(password.encode('utf-8'))
 
         message = client.recv(1024).decode()
 
@@ -65,8 +66,7 @@ class functions():
             n.destroy()
 
         print(userName)
-        print(password)
-
+        print(password) 
     def Login(self, event=None):
         global passwordIn
         global emailWin
@@ -76,10 +76,10 @@ class functions():
         canvas.pack_forget()
         canv = Canvas(root, bg="#1E1E1E", width=500, height=800)
         canv.create_image(160, 100, image=LoginText, anchor=NW)
-        client.send("L".encode())
 
         emailIn = Entry(
-            canv, width=30,
+            canv,
+            width=30,
             bg="#423F3F",
             fg="#FFFFFF",
             font=("Arial", 16)

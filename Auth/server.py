@@ -10,14 +10,10 @@ server.listen()
 
 
 def handle_connection(c):
-    c.send("Type Y for creating a account, Type L for login: ".encode())
     choice = c.recv(1024).decode()
     if choice == "L" or choice == "l":
-        username = c.recv(1024).decode()
-        c.send("Password: ".encode())
-        password = c.recv(1024)
-        password = hashlib.sha256(password).hexdigest()
-
+        username = c.recv(1024).decode('utf-8')
+        password = c.recv(1024).decode('utf-8')
         conn = sqlite3.connect("userdata.db")
         cur = conn.cursor()
 
@@ -25,9 +21,10 @@ def handle_connection(c):
 
         if cur.fetchall():
             c.send("True".encode())
+            client.close()
         else:
             c.send("False".encode())
-            raise SystemExit
+            client.close()
 
     elif choice == "Y" or choice == "y":
         conn = sqlite3.connect("userdata.db")
@@ -37,12 +34,11 @@ def handle_connection(c):
         username1 = c.recv(1024).decode()
         c.send("Password: ".encode())
         password1 = c.recv(1024)
-        password1 = hashlib.sha256(password1).hexdigest()
         cur.execute(
             "SELECT * FROM userdata WHERE username = :username", dict(username=username1))
         if cur.fetchall():
             c.send("Taken".encode())
-            raise SystemExit
+            client.close()
 
         else:
 
@@ -58,7 +54,7 @@ def handle_connection(c):
             conn.commit()
 
             c.send("Account Created!".encode())
-            raise SystemExit
+            client.close()
 
     else:
         c.send("INVALID OPTION!".encode())
