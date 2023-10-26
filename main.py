@@ -26,13 +26,6 @@ root.geometry("500x800+728+200")
 root.resizable(False, False)
 root.configure(bg="#1E1E1E")
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-
-# client.connect(("localhost", 1230))
-
-
-
 class functions():
 
     def Login(self, event):
@@ -86,7 +79,7 @@ class functions():
         loginBtn = canv.create_image(150, 450, image=loginImg, anchor=NW)
         BackBtn = canv.create_image(0, 10, image=backBtn, anchor=NW)
         canv.tag_bind(loginBtn, "<Button-1>", login)
-        canv.tag_bind(BackBtn, "<Button-1>")
+        canv.tag_bind(BackBtn, "<Button-1>", obj.back)
 
         canv.pack()
 
@@ -161,17 +154,32 @@ class functions():
 
         registerBtn = canv.create_image(150, 450, image=RegisterImg, anchor=NW)
         canv.tag_bind(registerBtn, "<Button-1>", register)
+        canv.tag_bind(BackBtn, "<Button-1>", obj.back)
         canv.pack()
+
+    def back(self, event):
+        obj = functions()
+        canv.pack_forget()
+        canvas = Canvas(root, bg="#1E1E1E", width=500, height=800)
+        title = canvas.create_image(-6, 20, image=titleIMG, anchor=NW)
+        loginBtn = canvas.create_image(150, 400, image=loginImg, anchor=NW)
+        registerBtn = canvas.create_image(150, 600, image=RegisterImg, anchor=NW)
+        canvas.tag_bind(loginBtn, "<Button-1>", obj.Login)
+        canvas.tag_bind(registerBtn, "<Button-1>", obj.Register)
+
+        canvas.pack()
 
     def mainPage(self, event=None):
         obj = functions()
         print("Main page")
         canvas.pack_forget()
 
+        username = emailIn.get()
+
         CANVAS = Canvas(root, bg="#1E1E1E", width=500, height=800)
         CANVAS.create_image(0, 0, image=hamMenu, anchor=NW)
 
-        CANVAS.create_text(255, 185, text=f"Good {phase}, ShyZen!", fill="white", font=("Inter", 27, "bold"))
+        CANVAS.create_text(255, 185, text=f"Good {phase}, {username}", fill="white", font=("Inter", 27, "bold"))
         CANVAS.create_text(255, 270, text="Don't be a Jeffery!", fill="white", font=("Inter", 27, "bold"))
         CANVAS.create_text(255, 350, text="Send a file or Receive one now!", fill="white", font=("Inter", 27, "bold"))
 
