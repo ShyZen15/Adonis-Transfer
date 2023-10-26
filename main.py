@@ -123,6 +123,11 @@ class functions():
                         password VARCHAR(255) NOT NULL
                     )
                 """)
+                cur.execute("INSERT INTO accounts (username, password) VALUES (?, ?)", (username, password))
+                conn.commit()
+                n = messagebox.showerror("Success", "Account Created !")
+                canv.pack_forget()
+                obj.mainPage()
 
         print("Nigga")
         canvas.pack_forget()

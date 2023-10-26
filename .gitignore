@@ -5,3 +5,4 @@ server-client.iml
 vcs.xml
 .DS_Store
 /.idea
+setup.py
