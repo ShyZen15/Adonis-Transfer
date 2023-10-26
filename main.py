@@ -64,6 +64,9 @@ class functions():
             fg="#FFFFFF",
             font=("Arial", 16)
         )
+        emailIn.insert(0, "Enter Password")
+        emailIn.focus()
+
 
         emailWin = canv.create_window(110, 250, window=emailIn, anchor=NW)
 
@@ -73,16 +76,15 @@ class functions():
             fg="#FFFFFF",
             font=("Arial", 16)
         )
+        passwordIn.insert(0, "Enter Password")
+        passwordIn.focus()
 
-        passwordWin = canv.create_window(110, 350, window=passwordIn, anchor=NW)
+        passwordWin = canv.create_window(110, 375, window=passwordIn, anchor=NW)
 
-        loginBtn = canv.create_image(150, 450, image=loginImg, anchor=NW)
-        BackBtn = canv.create_image(0, 10, image=backBtn, anchor=NW)
+        loginBtn = canv.create_image(145, 500, image=loginImg, anchor=NW)
         canv.tag_bind(loginBtn, "<Button-1>", login)
-        canv.tag_bind(BackBtn, "<Button-1>", obj.back)
 
         canv.pack()
-
     def Register(self, event):
         global passwordIn
         global emailWin
@@ -135,7 +137,7 @@ class functions():
         )
 
         emailIn.insert(0, "Enter Username")
-
+        emailIn.focus()
 
         emailWin = canv.create_window(110, 250, window=emailIn, anchor=NW)
 
@@ -147,27 +149,13 @@ class functions():
         )
 
         passwordIn.insert(0, "Enter Password")
+        passwordIn.focus()
 
-        passwordWin = canv.create_window(110, 350, window=passwordIn, anchor=NW)
-
-        BackBtn = canv.create_image(0, 10, image=backBtn, anchor=NW)
-
-        registerBtn = canv.create_image(150, 450, image=RegisterImg, anchor=NW)
+        passwordWin = canv.create_window(110, 375, window=passwordIn, anchor=NW)
+        registerBtn = canv.create_image(145, 500, image=RegisterImg, anchor=NW)
         canv.tag_bind(registerBtn, "<Button-1>", register)
-        canv.tag_bind(BackBtn, "<Button-1>", obj.back)
         canv.pack()
 
-    def back(self, event):
-        obj = functions()
-        canv.pack_forget()
-        canvas = Canvas(root, bg="#1E1E1E", width=500, height=800)
-        title = canvas.create_image(-6, 20, image=titleIMG, anchor=NW)
-        loginBtn = canvas.create_image(150, 400, image=loginImg, anchor=NW)
-        registerBtn = canvas.create_image(150, 600, image=RegisterImg, anchor=NW)
-        canvas.tag_bind(loginBtn, "<Button-1>", obj.Login)
-        canvas.tag_bind(registerBtn, "<Button-1>", obj.Register)
-
-        canvas.pack()
 
     def mainPage(self, event=None):
         obj = functions()
