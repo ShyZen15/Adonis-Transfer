@@ -6,7 +6,7 @@ from PIL import ImageTk
 import socket
 from datetime import datetime
 import os
-import sqlite3
+import psycopg2
 
 currentTime = datetime.now()
 
@@ -37,11 +37,11 @@ class functions():
 
         def login(event):
             obj = functions()
-            conn = sqlite3.connect("accounts.db")
+            conn = psycopg2.connect(host="ep-ancient-sea-04304262.ap-southeast-1.aws.neon.fl0.io", dbname="Accounts-data", user="fl0user", password="e2mxEtza9cdJ")
             cur = conn.cursor()
             username = emailIn.get()
             password = passwordIn.get()
-            cur.execute("SELECT * FROM accounts WHERE username = ? AND password = ?", (username, password))
+            cur.execute("SELECT * FROM accounts WHERE username = %s AND password = %s", (username, password))
             result = cur.fetchall()
             if result == []:
                 n = messagebox.showerror("Login Failed", "Invalid Credentials")
@@ -52,6 +52,7 @@ class functions():
                 obj.mainPage()
 
                 conn.commit()
+                conn.close()
 
         canvas.pack_forget()
         canv = Canvas(root, bg="#1E1E1E", width=500, height=800)
@@ -64,7 +65,7 @@ class functions():
             fg="#FFFFFF",
             font=("Arial", 16)
         )
-        emailIn.insert(0, "Enter Password")
+        emailIn.insert(0, "Enter Username")
         emailIn.focus()
 
 
@@ -93,41 +94,34 @@ class functions():
 
         def register(event):
             obj = functions()
-            username = emailIn.get()
-            password = passwordIn.get()
-            if os.path.exists("accounts.db"):
-                conn = sqlite3.connect("accounts.db")
-                cur = conn.cursor()
-                cur.execute("SELECT * FROM accounts WHERE username = :username", {"username": username})
+            username1 = emailIn.get()
+            password1 = passwordIn.get()
+            conn = psycopg2.connect(host="ep-ancient-sea-04304262.ap-southeast-1.aws.neon.fl0.io",
+                                    dbname="Accounts-data", user="fl0user", password="e2mxEtza9cdJ", port="5432")
+            cur = conn.cursor()
 
-                exists_ = cur.fetchall()
-                print(exists_)
-                if exists_ == []:
-                    cur.execute("INSERT INTO accounts (username, password) VALUES (?, ?)", (username, password))
-                    conn.commit()
-                    n = messagebox.showerror("Success", "Account Created !")
-                    canv.pack_forget()
-                    obj.mainPage()
+            cur.execute("""
+                         CREATE TABLE IF NOT EXISTS accounts (
+                                username VARCHAR(255) NOT NULL,
+                                password VARCHAR(255) NOT NULL
+                            );
+                        """)
 
-                else:
-                    n = messagebox.showerror("Error", "Username already exists")
-                    conn.commit()
+            cur.execute("SELECT * FROM accounts WHERE username = username", {"username": username1})
 
-            else:
-                conn = sqlite3.connect("accounts.db")
-                cur = conn.cursor()
-                cur.execute("""
-                    CREATE TABLE IF NOT EXISTS accounts (
-                        id INTEGER PRIMARY KEY,
-                        username VARCHAR(255) NOT NULL,
-                        password VARCHAR(255) NOT NULL
-                    )
-                """)
-                cur.execute("INSERT INTO accounts (username, password) VALUES (?, ?)", (username, password))
+            exists_ = cur.fetchall()
+            print(exists_)
+            if exists_ == []:
+                cur.execute("INSERT INTO accounts (username, password) VALUES (%s, %s)", (username1, password1))
                 conn.commit()
+                conn.close()
                 n = messagebox.showerror("Success", "Account Created !")
                 canv.pack_forget()
                 obj.mainPage()
+
+            else:
+                n = messagebox.showerror("Error", "Username already exists")
+                conn.commit()
 
         print("Nigga")
         canvas.pack_forget()
