@@ -17,9 +17,6 @@ elif 12 <= currentTime.hour > 18:
 else:
     phase = "Evening"
 
-host = socket.gethostbyname(socket.gethostname())
-print(host)
-
 root = tk.Tk()
 root.title("Adonis Transfer")
 root.geometry("500x800+728+200")
@@ -110,8 +107,8 @@ class functions():
             cur.execute("SELECT * FROM accounts WHERE username = username", {"username": username1})
 
             exists_ = cur.fetchall()
-            print(exists_)
-            if exists_ == []:
+            print(cur.fetchall())
+            if cur.fetchall() == []:
                 cur.execute("INSERT INTO accounts (username, password) VALUES (%s, %s)", (username1, password1))
                 conn.commit()
                 conn.close()
