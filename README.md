@@ -1,6 +1,6 @@
 # Adonis Transfer App 📁📲
 
-Adonis Transfer is a powerful file transfer app that allows you to send files quickly and securely to anyone, anywhere in the world. This app is built using the Tkinter module for the user interface, socket programming for fast file transfer, and SQLite 3 for database management. With Adonis Transfer, you can experience fast login, high-speed file transfer, and robust encryption to keep your data safe.
+Adonis Transfer is a powerful file transfer app that allows you to send files quickly and securely to anyone, anywhere in the world. This app is built using the Tkinter module for the user interface, socket programming for fast file transfer, and PostgreSQL for database management. With Adonis Transfer, you can experience fast login, high-speed file transfer, and robust encryption to keep your data safe.
 
 ## Features 🚀
 
@@ -18,7 +18,7 @@ Adonis Transfer is a powerful file transfer app that allows you to send files qu
 
 - **Socket Programming**: We employ socket programming for efficient and rapid file transfer. Your files will be delivered quickly.
 
-- **SQLite 3 Database**: Adonis Transfer uses SQLite 3 to manage user accounts and store necessary information securely.
+- **PostgreSQL Database**: Adonis Transfer uses PostgreSQL to manage user accounts and store necessary information securely.
 
 ## How to Use Adonis Transfer 📝
 
