@@ -106,7 +106,6 @@ class functions():
 
             cur.execute("SELECT * FROM accounts WHERE username = username", {"username": username1})
 
-            exists_ = cur.fetchall()
             print(cur.fetchall())
             if cur.fetchall() == []:
                 cur.execute("INSERT INTO accounts (username, password) VALUES (%s, %s)", (username1, password1))
