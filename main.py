@@ -44,7 +44,7 @@ class functions():
                 n = messagebox.showerror("Login Failed", "Invalid Credentials")
 
             else:
-                n = messagebox.showerror(f"Success", "Login Successfully !\n" + f"Welcome back {username}")
+                n = messagebox.showinfo(f"Success", "Login Successfully !\n" + f"Welcome back {username}")
                 canv.pack_forget()
                 obj.mainPage()
 
@@ -111,7 +111,7 @@ class functions():
                 cur.execute("INSERT INTO accounts (username, password) VALUES (%s, %s)", (username1, password1))
                 conn.commit()
                 conn.close()
-                n = messagebox.showerror("Success", "Account Created !")
+                n = messagebox.showinfo("Success", "Account Created !")
                 canv.pack_forget()
                 obj.mainPage()
 
@@ -185,6 +185,29 @@ class functions():
         master.resizable(False, False)
         master.configure(bg="#1E1E1E")
 
+        host = socket.gethostname()
+        print(socket.gethostbyname(host))
+
+        def send(event):
+            print("hello")
+            s = socket.socket()
+            host = socket.gethostname()
+            print(host)
+            host = '192.168.2.100'
+            port = 5000
+            s.bind((host, port))
+            s.listen(1)
+            print(host)
+            print("[LISTENING] for any incoming connections...")
+            conn, addr = s.accept()
+
+            file = open(filename, 'rb')
+
+            file_data = file.read(1024)
+            conn.send(file_data)
+            print("[DONE] File has been transferred!")
+        
+
         canva = Canvas(master, bg="#1E1E1E", width=500, height=800)
 
         canva.create_rectangle(0, 0, 500, 250, fill="white")
@@ -194,12 +217,13 @@ class functions():
         selectBtn = canva.create_image(175, 150, image=select, anchor=NW)
 
         canva.tag_bind(selectBtn, "<Button-1>", obj.selectFile)
-        canva.tag_bind(SendBtn, "<Button-1>", obj.send)
+        canva.tag_bind(SendBtn, "<Button-1>", send)
 
         canva.create_image(50, 350, image=circle, anchor=NW)
         canva.create_image(250, 75, image=texting, anchor=NW)
 
         host = socket.gethostname()
+        print(socket.gethostbyname(host))
 
         Label(master, text=f"ID: {host}", bg="white", fg="black").place(x=160, y=470)
 
@@ -225,7 +249,8 @@ class functions():
 
             s = socket.socket()
             port = 5000
-            s.connect((ID, port))
+            host = '192.168.2.100'
+            s.connect((host, port))
 
             file = open(fileName, "wb")
             file_data = s.recv(1024)
