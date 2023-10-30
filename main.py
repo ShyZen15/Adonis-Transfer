@@ -193,7 +193,7 @@ class functions():
             s = socket.socket()
             host = socket.gethostname()
             print(host)
-            host = '192.168.2.100'
+            host = '192.168.8.45'
             port = 5000
             s.bind((host, port))
             s.listen(1)
@@ -249,7 +249,7 @@ class functions():
 
             s = socket.socket()
             port = 5000
-            host = '192.168.2.100'
+            host = '192.168.8.45'
             s.connect((host, port))
 
             file = open(fileName, "wb")
