@@ -1,0 +1,12 @@
+Ladies and gentlemen, boys and girls, I'm so excited to tell you about this amazing project we made for our exhibition! Imagine a super cool app called "Adonis Transfer" that can help you share files with your friends, and it's just like magic!
+
+Okay, so let's break it down like we're talking to a 9-year-old. First, we used something called "socket programming" to make Adonis Transfer work. Think of it like two walkie-talkies that can send messages and files to each other. One person talks and the other person listens, and they can share stuff with each other.
+
+Now, we made Adonis Transfer look pretty and easy to use with lots of buttons and pictures. We used something called the "Tkinter Module of Python" to do that. It's like decorating your room with all your favorite posters and toys, but in the app, you decorate it with buttons and colors to make it fun to use!
+
+Do you know you have a secret password for your games or toys? Well, Adonis Transfer has something like that, too. We used something called "PostgreSQL" to keep your secrets safe. It's like a super-secret locker where you put all your stuff, and only you can open it with your secret key (your username and password).
+
+But here's the really cool part: Adonis Transfer doesn't need email addresses to send files. Instead, it uses something called "Device ID." It's like a secret code for your device, and it helps the app know where to send your files. So, you just tell the app who you want to send stuff to, and it takes care of the rest.
+
+And one more thing! When you send a file with Adonis Transfer, it creates a tiny server on your device, just for that moment. It's like making a temporary playground in your backyard, and once the game is over, the playground disappears. It keeps your device safe and tidy.
+So there you have it, our awesome Adonis Transfer that lets you share files with your friends keeps your secrets safe, and works like magic! We hope you like it as much as we do, and we're here to answer any questions you have. Thanks for listening!
