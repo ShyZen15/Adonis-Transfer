@@ -1,6 +1,5 @@
 tqdm
 pycryptodome
 tqdm
-
-pymongo
 Pillow
+psycopg2-binary
